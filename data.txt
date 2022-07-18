@@ -1,0 +1,12 @@
+What is the capital of france?
+London,Paris,Berlin,Tokyo,2
+What is 5+7?
+12,10,14,8,1
+What is the 7th month of the year?
+April,May,June,July,4
+Which planet is closest to the Sun?
+Saturn,Neptune,Mercury,Venus,3
+Where are the pyramids?
+India,Egypt,Morocco,Canada,2
+
+
