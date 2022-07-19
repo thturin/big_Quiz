@@ -1,9 +1,18 @@
-import pgzrun
+import pgzrun, random
 """
 Project No. Big Quiz
 
 first question shows with four possible answers. The player has 10 secs to click on one of the answers. Game ends 
 if player chosses a wrong answer or if the time runs out
+
+HACKS AND TWEAKS
+give a hint-> when the user hits the h key, they can see a hint in the python console or terminal OR two answers get 
+blurred out on the screen 
+
+add more questions to the text file 
+
+make the colors look nicer!
+
 """
 #Constants
 WIDTH = 1280
@@ -13,7 +22,7 @@ score = 0
 time_left = 10
 questions = []
 answers = []
-
+hint = False
 
 #create the box interface
 main_box = Rect(0,0,820,240)
@@ -49,14 +58,15 @@ read_data()
 question = questions.pop(0) #have to create variable here after questions list is populated in read_data() function
 
 def draw():
-    screen.fill("dim gray")
-    screen.draw.filled_rect(main_box,"sky blue")
-    screen.draw.filled_rect(timer_box,"green")
+    global hint
+    screen.fill((6,12,233)) #JEOPARDY BLUE COLOR
+    screen.draw.filled_rect(main_box,"Yellow")
+    screen.draw.filled_rect(timer_box,(6,12,233))
 
     for box in answer_boxes:
         screen.draw.filled_rect(box,"yellow")
 
-    screen.draw.textbox(str(time_left), timer_box, color=("black"))
+    screen.draw.textbox(str(time_left), timer_box, color=("yellow"))
     screen.draw.textbox(question[0],main_box, color=("black"))
 
     index = 1
@@ -64,6 +74,17 @@ def draw():
         screen.draw.textbox(question[index],box, color=("black"))
         index+=1
 
+    if hint:
+        #do not block out answer and one random non answer
+        while True:
+            keep_index = random.randint(0,3)
+            if keep_index != (int(question[5])-1):
+                break
+
+        for index, box in enumerate(answer_boxes):
+            if index!=keep_index and (index+1)!=int(question[5]):
+                screen.draw.filled_rect(answer_boxes[index], "red")
+        hint = False
 
 def game_over():
     pass
@@ -77,6 +98,12 @@ def correct_answer():
     else: #questions list is empty, game is over
         print("End of Questions")
         game_over()
+
+def on_key_up(key):
+    global hint
+    if key == keys.H:
+        hint = True
+
 
 def on_mouse_down(pos):
     index = 1

@@ -8,5 +8,3 @@ Which planet is closest to the Sun?
 Saturn,Neptune,Mercury,Venus,3
 Where are the pyramids?
 India,Egypt,Morocco,Canada,2
-
-
