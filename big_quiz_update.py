@@ -74,20 +74,24 @@ def draw():
         screen.draw.textbox(question[index],box, color=("black"))
         index+=1
 
+#hack that blurs out two answers that are wrong
     if hint:
         #do not block out answer and one random non answer
-        while True:
+        while True: #first find another index that will not be blurred out with the correct answer
             keep_index = random.randint(0,3)
-            if keep_index != (int(question[5])-1):
+            if keep_index != (int(question[5])-1): #you must subtract 1 because the answer assumes index 1-4
                 break
 
-        for index, box in enumerate(answer_boxes):
-            if index!=keep_index and (index+1)!=int(question[5]):
+        for index, box in enumerate(answer_boxes): #loop through answer boxes
+            if index!=keep_index and (index+1)!=int(question[5]): #if the index is not the keep_index or the index that has the answer, temporarily make the box red
                 screen.draw.filled_rect(answer_boxes[index], "red")
         hint = False
 
 def game_over():
-    pass
+    global question, time_left
+    message = "Game over, you got {} questions correct".format(score)
+    question = [message,'x','x','x','x',5]
+    time_left = 0
 
 def correct_answer():
     global question, score, time_left
@@ -104,7 +108,6 @@ def on_key_up(key):
     if key == keys.H:
         hint = True
 
-
 def on_mouse_down(pos):
     index = 1
     for box in answer_boxes:
@@ -118,7 +121,7 @@ def on_mouse_down(pos):
                 game_over()
         index+=1
 
-def update_time_left():
+def update_time_left(): #for the countdown clock
     global time_left
     if time_left: #if time_left!=0
         time_left -= 1
@@ -126,8 +129,5 @@ def update_time_left():
         game_over()
 
 clock.schedule_interval(update_time_left,1.0) #call this function every 1 second
-
-
-
 
 pgzrun.go()
